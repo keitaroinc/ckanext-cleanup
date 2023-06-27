@@ -1,7 +1,7 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
-from ckanext.cleanup.click_commands import check_resource
+from ckanext.cleanup.click_commands import *
 
 
 class CleanupPlugin(plugins.SingletonPlugin):
@@ -17,4 +17,4 @@ class CleanupPlugin(plugins.SingletonPlugin):
             'cleanup')
     
     def get_commands(self):
-        return [check_resource]
+        return [check_resource, resource_table_cleanup]
