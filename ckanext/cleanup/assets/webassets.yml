@@ -1,0 +1,14 @@
+# cleanup-js:
+#   filter: rjsmin
+#   output: ckanext-cleanup/%(version)s-cleanup.js
+#   contents:
+#     - js/cleanup.js
+#   extra:
+#     preload:
+#       - base/main
+
+# cleanup-css:
+#   filter: cssrewrite
+#   output: ckanext-cleanup/%(version)s-cleanup.css
+#   contents:
+#     - css/cleanup.css
