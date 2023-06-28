@@ -55,7 +55,10 @@ def check_resource():
 @click.command(u'resource-table-cleanup',
                short_help=u'Checkss resources by id and state '
                           u'and deletes the rows where state is deleted ')
-def resource_table_cleanup():
+@click.option("--cleanup", 
+              prompt=u'Cleanup resource rows (N will just list the notactive rows)', 
+              help=u'Yes or No')
+def resource_table_cleanup(cleanup):
 
     # Checks for all resources by id from databese
     # exists resource file in storage
@@ -72,13 +75,17 @@ def resource_table_cleanup():
                                             where p.id = r.package_id)""")
     resultDictionary = dict((x, y) for x, y in resource_id_url)
     logger.info(f'There are {len(resultDictionary)} not active rows in resources table')
-    delete_resource_row = model.Session.execute("""
-                                                delete from resource r
-                                                where r.state ='deleted'
-                                                and not exists (
-                                                select id from package p
-                                                where p.id = r.package_id)
-                                                """)
-    
-    print(type(delete_resource_row))
+    if cleanup == 'Yes':
+        delete_resource_row = model.Session.execute("""
+                                                    delete from resource r
+                                                    where r.state ='deleted'
+                                                    and not exists (
+                                                    select id from package p
+                                                    where p.id = r.package_id)
+                                                    """)
+        print(delete_resource_row)
+        logger.info('Not active rows from resource tabel were deleted')
+    else:
+        logger.info('Delete operation was skipped')
+     
     print('resource table cleanup')
