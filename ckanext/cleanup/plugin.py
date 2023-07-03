@@ -17,4 +17,5 @@ class CleanupPlugin(plugins.SingletonPlugin):
             'cleanup')
     
     def get_commands(self):
-        return [check_resource, resource_table_cleanup]
+        return [check_resource, resource_table_cleanup,
+                resource_filestore_cleanup]
