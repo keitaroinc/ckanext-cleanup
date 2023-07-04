@@ -96,34 +96,42 @@ def resource_table_cleanup(cleanup):
                short_help=u'Checks for resource in filestore '
                           u'exists row in resource table '
                           u'and deletes the resource if no row is found')
-def resource_filestore_cleanup():
+@click.option('--c', default='N', prompt='Clear resources',
+              help='Clear the resources: Y or N')
+def resource_filestore_cleanup(c):
+    fh = logging.FileHandler(r'filestore_cleanup.log', 'w+')
+    logger.addHandler(fh)
+    fh.setFormatter(formatter)
+    fh.setLevel(logging.DEBUG)
     
     storage_path = config.get('ckan.storage_path',
                             '/var/lib/ckan/default/resources')
     resource_ids_and_paths = {}
     resource_ids =  model.Session.execute("select id, url from resource r")
     resource_ids_dict = dict((x, y) for x, y in resource_ids)
-    print(resource_ids_dict)
     for root, dirs, files in os.walk(storage_path):
         if root[-17:-8] == 'resources':
             for idx, resource_file in enumerate(files):
                 resource_ids_and_paths[resource_file] = os.path.join(
                     root, files[idx])
-               
-                print(resource_ids_and_paths[resource_file])
+              
                 full_id = resource_ids_and_paths[resource_file][-38:-35] + resource_ids_and_paths[resource_file][-34:-31] + resource_file
-                
+               
                 if resource_ids_dict.get(full_id):
-                    print("id for this file exists in resources table")
+                    logger.info(f'{resource_file} exists in resources table')
                 else:
-                    print("id for this file does not exists in resources table")
-                    # this line should remove the complete resource folder
-                    # os.remove(resource_ids_and_paths[resource_file])
+                    if c == 'Y':
+                        print("id for this file does not exists in resources table")
+                        logger.warn(f'{resource_file} does not exists in resources table')
+                        os.remove(resource_ids_and_paths[resource_file])
+                        logger.warn(f'{resource_file} is deleted')
+                    else:
+                        logger.warn(f'{resource_file} does not exists in resources table')
+                        print("id for this file does not exists in resources table")
 
     click.secho('Found {0} resource files in the file system'.format(
         len(resource_ids_and_paths)),
         fg=u'green',
         bold=True)
 
-    
-    print('resource file cleanup end')
+    logger.info('resource cleanup end')
