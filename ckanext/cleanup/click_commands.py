@@ -17,7 +17,7 @@ ch.setFormatter(formatter)
 
 
 @click.command(u'check-resource',
-               short_help=u'Checks for all resources by id from databese '
+               short_help=u'Checks for all resources by id from database '
                           u'exists resource file in storage')
 def check_resource():
 
@@ -55,7 +55,8 @@ def check_resource():
 
 @click.command(u'resource-table-cleanup',
                short_help=u'Checks resources by id and state '
-                          u'and deletes the rows where state is deleted ')
+                          u'and deletes the rows where state is deleted '
+                          u'and there is no dataset for that resource')
 @click.option("--cleanup", 
               prompt=u'Cleanup resource rows (N will just list the notactive rows)', 
               help=u'Yes or No')
@@ -89,7 +90,7 @@ def resource_table_cleanup(cleanup):
     else:
         logger.info('Delete operation was skipped')
      
-    print('resource table cleanup end')
+    logger.info("Resource table cleanup end")
 
 
 @click.command(u'resource-filestore-cleanup',

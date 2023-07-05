@@ -2,13 +2,10 @@
 
 # ckanext-cleanup
 
-**TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
+A CKAN extension that checks and cleans the FileStore.
 
 
 ## Requirements
-
-**TODO:** For example, you might want to mention here which versions of CKAN this
-extension works with.
 
 If your extension works across different versions you can add the following table:
 
@@ -19,21 +16,10 @@ Compatibility with core CKAN versions:
 | 2.6 and earlier | not tested    |
 | 2.7             | not tested    |
 | 2.8             | not tested    |
-| 2.9             | not tested    |
-
-Suggested values:
-
-* "yes"
-* "not tested" - I can't think of a reason why it wouldn't work
-* "not yet" - there is an intention to get it working
-* "no"
+| 2.9             | Yes           |
 
 
 ## Installation
-
-**TODO:** Add any additional install steps to the list below.
-   For example installing any non-Python dependencies or adding any required
-   config settings.
 
 To install ckanext-cleanup:
 
@@ -61,12 +47,6 @@ To install ckanext-cleanup:
 
 None at present
 
-**TODO:** Document any optional config settings here. For example:
-
-	# The minimum number of hours to wait before re-checking a resource
-	# (optional, default: 24).
-	ckanext.cleanup.some_setting = some_default_value
-
 
 ## Developer installation
 
@@ -77,6 +57,24 @@ do:
     cd ckanext-cleanup
     python setup.py develop
     pip install -r dev-requirements.txt
+
+
+## List of cli commands
+
+1. Check-resource - Checks if for all resources by id from database exists resource file in storage
+'''
+    ckan -c ../ckan/production.ini check-resource
+'''
+
+2. Resource-table-cleanup - Checks resources by id and state and deletes the rows where state is deleted and there is no dataset for that resource
+'''
+    ckan -c ../ckan/production.ini resource-table-cleanup
+'''
+
+3. Resource-filestore-cleanup - Checks for resource in filestore exists row in resource table and deletes the resource if no row is found
+'''
+    ckan -c ../ckan/production.ini resource-filestore-cleanup
+'''
 
 
 ## Tests
