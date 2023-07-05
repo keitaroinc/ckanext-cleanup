@@ -7,8 +7,6 @@ A CKAN extension that checks and cleans the FileStore.
 
 ## Requirements
 
-If your extension works across different versions you can add the following table:
-
 Compatibility with core CKAN versions:
 
 | CKAN version    | Compatible?   |
@@ -17,6 +15,8 @@ Compatibility with core CKAN versions:
 | 2.7             | not tested    |
 | 2.8             | not tested    |
 | 2.9             | Yes           |
+| 2.10            | not tested    |
+
 
 
 ## Installation
@@ -62,19 +62,22 @@ do:
 ## List of cli commands
 
 1. Check-resource - Checks if for all resources by id from database exists resource file in storage
-'''
+
+```
     ckan -c ../ckan/production.ini check-resource
-'''
+```
 
 2. Resource-table-cleanup - Checks resources by id and state and deletes the rows where state is deleted and there is no dataset for that resource
-'''
+
+```
     ckan -c ../ckan/production.ini resource-table-cleanup
-'''
+```
 
 3. Resource-filestore-cleanup - Checks for resource in filestore exists row in resource table and deletes the resource if no row is found
-'''
+
+```
     ckan -c ../ckan/production.ini resource-filestore-cleanup
-'''
+```
 
 
 ## Tests
