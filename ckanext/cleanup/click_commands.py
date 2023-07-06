@@ -77,7 +77,7 @@ def resource_table_cleanup(cleanup):
                                             where p.id = r.package_id)""")
     resultDictionary = dict((x, y) for x, y in resource_id_url)
     logger.info(f'There are {len(resultDictionary)} not active rows in resources table')
-    if cleanup == 'Yes':
+    if cleanup == 'Y':
         delete_resource_row = model.Session.execute("""
                                                     delete from resource r
                                                     where r.state ='deleted'
@@ -85,7 +85,6 @@ def resource_table_cleanup(cleanup):
                                                     select id from package p
                                                     where p.id = r.package_id)
                                                     """)
-        print(delete_resource_row)
         logger.info('Not active rows from resource tabel were deleted')
     else:
         logger.info('Delete operation was skipped')
