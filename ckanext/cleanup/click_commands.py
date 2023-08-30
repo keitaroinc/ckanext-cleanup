@@ -121,12 +121,11 @@ def resource_filestore_cleanup(c):
                     logger.info(f'{resource_file} exists in resources table')
                 else:
                     if c == 'Y':
-                        print("id for this file does not exists in resources table")
                         logger.warn(f'{resource_file} does not exists in resources table')
                         os.remove(resource_ids_and_paths[resource_file])
-                        logger.warn(f'{resource_file} is deleted')
+                        logger.warn(f'{resource_ids_and_paths[resource_file]} is deleted')
                     else:
-                        logger.warn(f'{resource_file} does not exists in resources table')
+                        logger.warn(f'{resource_ids_and_paths[resource_file]} does not exists in resources table')
                         print("id for this file does not exists in resources table")
 
     click.secho('Found {0} resource files in the file system'.format(
