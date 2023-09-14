@@ -77,8 +77,10 @@ Please make sure You have full backup before using any of the cli commands
 ```
 
 3. Resource-filestore-cleanup - Checks for resource in filestore exists row in resource table and deletes the resource if no row is found.
+ 
  When used without arguments it just lists the files.
  Use --delete to actually delete the resources
+ 
  By default it lists and puts in log all resources.
  Use --list-deleted to list only resources that need to be deleted/are deleted 
 
