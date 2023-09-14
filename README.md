@@ -73,7 +73,7 @@ do:
     ckan -c ../ckan/production.ini resource-table-cleanup
 ```
 
-3. Resource-filestore-cleanup - Checks for resource in filestore exists row in resource table and deletes the resource if no row is found
+3. Resource-filestore-cleanup - Checks for resource in filestore exists row in resource table and deletes the resource if no row is found. When used without arguments it just lists the files. Use --delete to actually delete the resources
 
 ```
     ckan -c ../ckan/production.ini resource-filestore-cleanup

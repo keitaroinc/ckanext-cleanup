@@ -96,9 +96,9 @@ def resource_table_cleanup(cleanup):
                short_help=u'Checks for resource in filestore '
                           u'exists row in resource table '
                           u'and deletes the resource if no row is found')
-@click.option('--c', default='N', prompt='Clear resources',
-              help='Clear the resources: Y or N')
-def resource_filestore_cleanup(c):
+@click.option('--delete', is_flag=True, default=False,
+              help='Use --delete to delete the resources, otherwise it just lists them')
+def resource_filestore_cleanup(delete):
     fh = logging.FileHandler(r'filestore_cleanup.log', 'w+')
     logger.addHandler(fh)
     fh.setFormatter(formatter)
@@ -120,14 +120,12 @@ def resource_filestore_cleanup(c):
                 if resource_ids_dict.get(full_id):
                     logger.info(f'{resource_file} exists in resources table')
                 else:
-                    if c == 'Y':
-                        print("id for this file does not exists in resources table")
+                    if delete:
                         logger.warn(f'{resource_file} does not exists in resources table')
                         os.remove(resource_ids_and_paths[resource_file])
-                        logger.warn(f'{resource_file} is deleted')
+                        logger.warn(f'{resource_ids_and_paths[resource_file]} is deleted')
                     else:
-                        logger.warn(f'{resource_file} does not exists in resources table')
-                        print("id for this file does not exists in resources table")
+                        logger.warn(f'{resource_ids_and_paths[resource_file]} does not exists in resources table')
 
     click.secho('Found {0} resource files in the file system'.format(
         len(resource_ids_and_paths)),
